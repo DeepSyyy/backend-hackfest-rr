@@ -3,11 +3,9 @@ package middleware
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
 
 	"github.com/DeepSyyy/backend-hackfest-rr/config"
-	helper_error "github.com/DeepSyyy/backend-hackfest-rr/helper/error"
 	repository_interface "github.com/DeepSyyy/backend-hackfest-rr/repository/interface"
 	"github.com/DeepSyyy/backend-hackfest-rr/utils"
 	"github.com/gin-gonic/gin"
@@ -35,8 +33,9 @@ func DeserializeUser(userRepository repository_interface.UserRepository) gin.Han
 			return
 		}
 
-		id, err_id := strconv.Atoi(fmt.Sprint(sub))
-		helper_error.ErrorPanic(err_id)
+		id, _ := sub.(string)
+		fmt.Println(id)
+		// helper_error.ErrorPanic(err_id)
 		result, err := userRepository.FindById(id)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{"status": "fail", "message": "the user belonging to this token no logger exists"})

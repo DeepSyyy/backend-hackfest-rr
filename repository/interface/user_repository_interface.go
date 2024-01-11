@@ -6,7 +6,7 @@ type UserRepository interface {
 	Save(user domain.User) error
 	FindByUsername(username string) (domain.User, error)
 	FindAll() []domain.User
-	FindById(userId int) (domain.User, error)
+	FindById(userId string) (domain.User, error)
 	Update(user domain.User)
 	Delete(userid int)
 }

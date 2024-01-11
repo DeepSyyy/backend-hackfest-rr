@@ -35,9 +35,9 @@ func (u *UserRepositoryImpl) FindAll() []domain.User {
 }
 
 // FindById
-func (u *UserRepositoryImpl) FindById(userId int) (domain.User, error) {
+func (u *UserRepositoryImpl) FindById(userId string) (domain.User, error) {
 	var User domain.User
-	result := u.Db.Find(&User, userId)
+	result := u.Db.Where("id = ?", userId).Find(&User)
 	if result != nil {
 		return User, nil
 	} else {
