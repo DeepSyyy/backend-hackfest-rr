@@ -35,3 +35,16 @@ func (c *ClanController) CreateClan(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, webResponse)
 }
+
+// GetClans
+func (c *ClanController) GetClans(ctx *gin.Context) {
+	clans := c.clanService.GetClans()
+	webResponse := response.Response{
+		Code:    http.StatusOK,
+		Status:  "Ok",
+		Message: "Successfully fetch all clan data!",
+		Data:    clans,
+	}
+
+	ctx.JSON(http.StatusOK, webResponse)
+}

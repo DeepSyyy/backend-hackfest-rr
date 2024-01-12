@@ -33,6 +33,7 @@ func NewRouter(authC *controller.AuthControllerImpl, userRepo repository_interfa
 	//Clan Router
 	clanRouter := router.Group("/clans")
 	clanRouter.POST("", middleware.DeserializeUser(userRepo), clanC.CreateClan)
+	clanRouter.GET("", middleware.DeserializeUser(userRepo), clanC.GetClans)
 
 	return service
 
