@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewRouter(authC *controller.AuthControllerImpl, userRepo repository_interface.UserRepository, userC *controller.UserController) *gin.Engine {
+func NewRouter(authC *controller.AuthControllerImpl, userRepo repository_interface.UserRepository, userC *controller.UserController, clanC *controller.ClanController) *gin.Engine {
 	service := gin.Default()
 
 	service.GET("", func(ctx *gin.Context) {
@@ -21,13 +21,18 @@ func NewRouter(authC *controller.AuthControllerImpl, userRepo repository_interfa
 	})
 
 	router := service.Group("/api")
-
+	//Auth Router
 	authRouter := router.Group("/auth")
 	authRouter.POST("/register", authC.Register)
 	authRouter.POST("/login", authC.Login)
 
+	//User Router
 	userRouter := router.Group("/users")
 	userRouter.GET("", middleware.DeserializeUser(userRepo), userC.GetUsers)
+
+	//Clan Router
+	clanRouter := router.Group("/clans")
+	clanRouter.POST("", middleware.DeserializeUser(userRepo), clanC.CreateClan)
 
 	return service
 

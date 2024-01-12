@@ -27,19 +27,23 @@ func main() {
 	validate := validator.New()
 
 	db.Table("users").AutoMigrate(&domain.User{})
+	db.Table("eco_clans").AutoMigrate(&domain.EcoClan{})
 	fmt.Println("🚀 Migrated Successfully")
 
 	//init Repo
 	userRepository := repository_impl.NewUserRepositoryImpl(db)
+	clanRepository := repository_impl.NewClanRepositoryImpl(db)
 
 	//init Service
 	authService := service_impl.NewAuthService(userRepository, validate)
+	clanService := service_impl.NewClanServiceImpl(clanRepository, validate)
 
 	//init controller
 	authController := controller.NewAuthController(authService)
 	userController := controller.NewUsersController(userRepository)
+	clanController := controller.NewClanController(clanService)
 
-	routes := router.NewRouter(authController, userRepository, userController)
+	routes := router.NewRouter(authController, userRepository, userController, clanController)
 
 	server := &http.Server{
 		Addr:           ":" + loadConfig.ServerPort,

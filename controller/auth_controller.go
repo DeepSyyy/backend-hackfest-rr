@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
 	helper_error "github.com/DeepSyyy/backend-hackfest-rr/helper/error"
@@ -52,7 +51,6 @@ func (controller *AuthControllerImpl) Login(c *gin.Context) {
 	helper_error.ErrorPanic(err)
 
 	token, err_token := controller.authService.Login(loginRequest)
-	fmt.Println(err_token)
 	if err_token != nil {
 		webResponse := response.Response{
 			Code:    http.StatusBadRequest,
